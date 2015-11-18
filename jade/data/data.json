@@ -1,0 +1,19 @@
+{
+  "page_title": "Test Page",
+  "images": [
+    {
+      "year":         1990,
+      "month":        4,
+      "day":          12,
+      "title":        "Pammie is born...",
+      "description":  "At the royal Greenwich hospital, not far from where we are today!"
+    },
+    {
+      "year":         1991,
+      "month":        7,
+      "day":          31,
+      "title":        "Matt is born...",
+      "description":  "In Chatham, Medway."
+    },
+  ]
+}
