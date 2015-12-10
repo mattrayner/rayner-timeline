@@ -16,6 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+@font-face {
+  font-family: 'VMCircularWhisper-Light';
+  src: url('../fonts/VMCircularWhisper-Light.eot?#iefix') format('embedded-opentype'),  url('../fonts/VMCircularWhisper-Light.otf')  format('opentype'),
+  url('../fonts/VMCircularWhisper-Light.woff') format('woff'), url('../fonts/VMCircularWhisper-Light.ttf')  format('truetype'), url('../fonts/VMCircularWhisper-Light.svg#VMCircularWhisper-Light') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 * {
   -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -32,92 +41,233 @@ body {
   -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
   -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
   -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-  background-color:#E4E4E4;
-  background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-  background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-  background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-  background-image:-webkit-gradient(
-                  linear,
-                  left top,
-                  left bottom,
-                  color-stop(0, #A7A7A7),
-                  color-stop(0.51, #E4E4E4)
-  );
-  background-attachment:fixed;
-  font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+
+  font-family: 'VMCircularWhisper-Light', sans-serif;
+  -webkit-text-stroke: 1px white;
+  letter-spacing: 1px;
+  -webkit-font-smoothing: antialiased;
+
   font-size:12px;
   height:100%;
   margin:0px;
   padding:0px;
-  text-transform:uppercase;
   width:100%;
+
+  background-color: black;
 }
 .splash {
   width: 1024px;
   height: 768px;
+
   z-index: 10;
-  background-color: blue;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background: url(../img/splash.png) center center no-repeat;
+  background-size: cover;
+
+  a#start-button {
+    width: 150px;
+    height: 150px;
+
+    background: url(../img/play_button.png) center center no-repeat;
+    background-size: 100%;
+
+    position: absolute;
+
+    bottom: 50px;
+    left: 50%;
+
+    margin-left: -75px;
+
+    -webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+    filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+  }
 }
 
 /* Portrait layout (default) */
 .app {
-  position:absolute;             /* position in the center of the screen */
-  height:50px;                   /* text area height */
-  width:2048px;                   /* text area width */
+  width: 1024px;
+  height: 768px;
+
   display: none;
-}
 
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-  .app {
-    background-position:left center;
-    padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-    margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
-    /* offset horizontal: half of image width and text area width */
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  overflow-y: hidden;
+  overflow-x: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+
+  #timeline {
+    padding: 50px;
+
+    background-color: rgba(0,0,0,0.8);
+
+    color: white;
+
+    //width: 1010px;
+    height: 194px;
+
+    margin: 234px 512px 0;
+
+    position: relative;
+
+
+    z-index: 100;
+
+    .start, .end {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+
+    .start {
+      margin-top: 71px;
+
+      width: 47px;
+      height: 47px;
+
+      background-image: url(../img/start.png);
+
+      float: left;
+    }
+
+    .content {
+      //width: 922px;
+      float: left;
+
+      a.year {
+        position:relative;
+
+        display: block;
+
+        float: left;
+
+        width: 152px;
+        height: 93px;
+
+        background: url(../img/divider.png) bottom center no-repeat;
+        background-size: 3px 46px;
+
+        border-bottom: 3px solid white;
+
+        font-size: 35px;
+        line-height: 1;
+
+        text-align: center;
+
+        padding-top: 0;
+
+        .count {
+          width: 30px;
+          height: 18px;
+          text-align: center;
+          font-size: 8px;
+          background: url(../img/small-polaroid.png) center center no-repeat;
+          background-size: 15px 18px;
+          transform: rotate(14deg);
+          padding-top: 8px;
+
+          margin-left: 113px;
+          margin-top: -40px;
+        }
+
+        &:nth-child(2n) {
+          background-position-y: top;
+
+          border-bottom: none;
+          border-top: 3px solid white;
+
+          padding-top: 45px;
+
+          margin-top: 93px;
+
+          height: 57px;
+        }
+
+        &:not(:first-child) {
+          margin-left: -75px;
+        }
+      }
+    }
+
+    .end {
+      width: 32px;
+      height: 49px;
+
+      background-image: url(../img/end.png);
+
+      float: left;
+
+      margin-top: 71px;
+    }
+  }
+
+  #overlay {
+    display: none;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 1024px;
+    height: 768px;
+
+    z-index: 1000;
+  }
+
+  .backgrounds {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    .background {
+      width: 1024px;
+      height: 768px;
+
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      z-index: 1;
+
+
+      background-repeat: no-repeat;
+      background-size: 1024px 768px;
+      //background-attachment: fixed;
+
+      -webkit-transition: background-position-x 0.2s;
+      -moz-transition: background-position-x 0.2s;
+      -ms-transition: background-position-x 0.2s;
+      -o-transition: background-position-x 0.2s;
+      transition: background-position-x 0.2s;
+
+      &.gillingham {
+        background-image: url(../img/gillingham.png);
+      }
+    }
   }
 }
 
-h1 {
-  font-size:24px;
-  font-weight:normal;
-  margin:0px;
-  overflow:visible;
-  padding:0px;
-  text-align:center;
-}
+.clearfix {
+  display: inline-block;
 
-.event {
-  border-radius:4px;
-  -webkit-border-radius:4px;
-  color:#FFFFFF;
-  font-size:12px;
-  margin:0px 30px;
-  padding:2px 0px;
-
-  .listening {
-    background-color:#333333;
-    display:block;
-  }
-
-  .received {
-    background-color:#4B946A;
-    display:none;
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
   }
 }
-
-@keyframes fade {
-  from { opacity: 1.0; }
-  50% { opacity: 0.4; }
-  to { opacity: 1.0; }
-}
-
-@-webkit-keyframes fade {
-  from { opacity: 1.0; }
-  50% { opacity: 0.4; }
-  to { opacity: 1.0; }
-}
-
-.blink {
-  animation:fade 3000ms infinite;
-  -webkit-animation:fade 3000ms infinite;
-}
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }

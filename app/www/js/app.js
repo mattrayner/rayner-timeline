@@ -25,26 +25,42 @@ under the License.
     resetTimeout: null,
     resetTime: 30000,
     fadeTime: 1000,
+    backgroundObjects: null,
     initialize: function() {
+      app.backgroundObjects = document.getElementsByClassName('background');
       return document.addEventListener('deviceready', this.onDeviceReady, false);
     },
     onDeviceReady: function() {
       app.log('Device Ready');
       StatusBar.hide();
-      return app.setupTouchEvents();
+      app.setupTouchEvents();
+      return app.resizeTimeline();
     },
     setupTouchEvents: function() {
       app.log('Adding touch events');
-      return $('#start-button').bind('touchstart', app.launchTimeline);
+      $('#start-button').bind('touchstart', app.launchTimeline);
+      $(window).bind('scroll', function() {
+        return app.updateResetTimeout();
+      });
+      return $('a.year').bind('touchend', function() {
+        var target;
+        target = $(this).data('year');
+        $('#overlay').fadeIn('fast');
+        $('.image-year').hide();
+        return $("#" + target).show();
+      });
     },
     launchTimeline: function() {
       app.log('Launching timeline');
       $('.splash').fadeOut(app.fadeTime);
+      $('.app').show();
       return app.updateResetTimeout();
     },
     closeTimeline: function(e) {
       app.log('Closing timeline');
-      return $('.splash').fadeIn(app.fadeTime);
+      $(window).scrollLeft(0);
+      $('.splash').show();
+      return $('.app').hide();
     },
     updateResetTimeout: function() {
       app.log('Updating timeline reset timeout');
@@ -54,6 +70,12 @@ under the License.
       }, app.resetTime);
       return app.resetTimeout;
     },
+    updateBackgroundPosition: function() {
+      var left;
+      app.log('Updating background position');
+      left = $(window).scrollLeft();
+      return $(app.backgroundObjects).css('background-position-x', left + "px");
+    },
     cancelResetTimeout: function() {
       app.log('Cancelling timeline reset timeout');
       if (app.resetTimeout !== null) {
@@ -62,6 +84,23 @@ under the License.
     },
     log: function(message) {
       return console.log('RAY :: ' + message);
+    },
+    resizeTimeline: function() {
+      var app_width, backgrounds, content_width, timeline_width, years;
+      app.log('Resize timeline');
+      years = $('#timeline .content .year').length;
+      content_width = 152 + ((152 - 75) * (years - 1));
+      timeline_width = 47 + content_width + 32;
+      app_width = timeline_width + 1124;
+      $('#timeline').css('width', timeline_width + "px");
+      $('#timeline .content').css('width', content_width + "px");
+      $('.app').css('width', app_width + "px");
+      backgrounds = $(".backgrounds");
+      return $(window).scroll(function() {
+        var windowpos;
+        windowpos = $(window).scrollLeft();
+        return true;
+      });
     }
   };
 

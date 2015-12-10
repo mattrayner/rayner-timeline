@@ -26,8 +26,13 @@ app = {
   # How long will fades last?
   fadeTime: 1000,
 
+  # Get a reference to our background object
+  backgroundObjects: null,
+
   # Application Constructor
   initialize: ->
+    app.backgroundObjects = document.getElementsByClassName('background')
+
     document.addEventListener('deviceready', this.onDeviceReady, false)
 
   # deviceready Event Handler
@@ -43,17 +48,38 @@ app = {
     # Add our touch events
     app.setupTouchEvents()
 
-  # Setup touchstart events used within our application
+    app.resizeTimeline()
+
+  # Setup   events used within our application
   setupTouchEvents: ->
     app.log('Adding touch events')
 
     $('#start-button').bind('touchstart', app.launchTimeline)
+
+    $(window).bind('scroll', ->
+      app.updateResetTimeout()
+#      app.updateBackgroundPosition()
+    )
+#    $(window).bind('touchmove', ->
+#      app.updateResetTimeout()
+#      app.updateBackgroundPosition()
+#    )
+
+    $('a.year').bind('touchend', ->
+      target = $(this).data('year')
+
+      $('#overlay').fadeIn('fast')
+
+      $('.image-year').hide()
+      $("##{target}").show()
+    )
 
   # Transition from our splash screen into the timeline.
   launchTimeline: ->
     app.log('Launching timeline')
 
     $('.splash').fadeOut(app.fadeTime)
+    $('.app').show()
 
     app.updateResetTimeout()
 
@@ -61,7 +87,10 @@ app = {
   closeTimeline: (e)->
     app.log('Closing timeline')
 
-    $('.splash').fadeIn(app.fadeTime)
+    $(window).scrollLeft(0)
+
+    $('.splash').show()
+    $('.app').hide()
 
   # Reset our timeout
   updateResetTimeout: ->
@@ -76,6 +105,13 @@ app = {
 
     app.resetTimeout
 
+  updateBackgroundPosition: ->
+    app.log('Updating background position')
+
+    left = $(window).scrollLeft()
+
+    $(app.backgroundObjects).css('background-position-x', "#{left}px")
+
   # Cancel our reset timeout
   cancelResetTimeout: ->
     app.log('Cancelling timeline reset timeout')
@@ -86,6 +122,30 @@ app = {
   # Log out a message to the console
   log: (message)->
     console.log('RAY :: '+message)
+
+  # Resize the timeline and it's content element
+  resizeTimeline: ->
+    app.log('Resize timeline')
+
+    years = $('#timeline .content .year').length
+
+    content_width = 152+((152-75) * (years - 1))
+#    timeline_width = 50+47+content_width+32+50
+    timeline_width = 47+content_width+32
+    app_width = timeline_width+1124
+
+    $('#timeline').css('width', "#{timeline_width}px")
+    $('#timeline .content').css('width', "#{content_width}px")
+    $('.app').css('width', "#{app_width}px")
+
+    backgrounds = $(".backgrounds");
+    $(window).scroll(->
+      windowpos = $(window).scrollLeft();
+
+#      backgrounds.css('left', "#{windowpos}px");
+
+      true
+    )
 }
 
 # Initialize up our application
