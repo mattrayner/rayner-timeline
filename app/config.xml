@@ -13,5 +13,12 @@
     <platform name="ios">
         <preference name="DisallowOverscroll" value="true" />
         <preference name="orientation" value="landscape" />
+
+        <preference name="BackupWebStorage" value="local" />
+
+        <icon src="res/icon/icon.png" width="76" height="76" />
+        <splash src="res/splash/splash.png" width="1024" height="768"/>
+        <icon src="res/icon/icon@2x.png" width="152" height="152" />
+        <splash src="res/splash/splash@2x.png" width="2048" height="1536"/>
     </platform>
 </widget>

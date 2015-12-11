@@ -60,18 +60,13 @@ app = {
       app.updateResetTimeout()
 #      app.updateBackgroundPosition()
     )
-#    $(window).bind('touchmove', ->
-#      app.updateResetTimeout()
-#      app.updateBackgroundPosition()
-#    )
 
-    $('a.year').bind('touchend', ->
-      target = $(this).data('year')
+    $('a.year').bind('click', app.openOverlay)
 
-      $('#overlay').fadeIn('fast')
+    $('a.close-modal').bind('click', (e)->
+      e.preventDefault()
 
-      $('.image-year').hide()
-      $("##{target}").show()
+      app.closeOverlay()
     )
 
   # Transition from our splash screen into the timeline.
@@ -91,6 +86,10 @@ app = {
 
     $('.splash').show()
     $('.app').hide()
+
+    app.closeOverlay()
+
+
 
   # Reset our timeout
   updateResetTimeout: ->
@@ -132,7 +131,8 @@ app = {
     content_width = 152+((152-75) * (years - 1))
 #    timeline_width = 50+47+content_width+32+50
     timeline_width = 47+content_width+32
-    app_width = timeline_width+1124
+    app_width = timeline_width+500
+#    app_width = timeline_width+1124
 
     $('#timeline').css('width', "#{timeline_width}px")
     $('#timeline .content').css('width', "#{content_width}px")
@@ -146,6 +146,31 @@ app = {
 
       true
     )
+
+  openOverlay: ->
+    target = $(this).data('year')
+
+    $('body').css({
+      'overflow': 'hidden',
+      'width': '1024px'
+    })
+    $('#overlay').fadeIn('fast')
+
+    $('.image-year').hide()
+    $("##{target}").show()
+
+    app.cancelResetTimeout()
+
+    $('.cycle-slideshow').cycle(0)
+
+  closeOverlay: ->
+    $('body').css({
+      'overflow': '',
+      'width': ''
+    })
+    $('#overlay').fadeOut('fast')
+
+    app.updateResetTimeout()
 }
 
 # Initialize up our application

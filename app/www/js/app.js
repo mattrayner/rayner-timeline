@@ -42,12 +42,10 @@ under the License.
       $(window).bind('scroll', function() {
         return app.updateResetTimeout();
       });
-      return $('a.year').bind('touchend', function() {
-        var target;
-        target = $(this).data('year');
-        $('#overlay').fadeIn('fast');
-        $('.image-year').hide();
-        return $("#" + target).show();
+      $('a.year').bind('click', app.openOverlay);
+      return $('a.close-modal').bind('click', function(e) {
+        e.preventDefault();
+        return app.closeOverlay();
       });
     },
     launchTimeline: function() {
@@ -60,7 +58,8 @@ under the License.
       app.log('Closing timeline');
       $(window).scrollLeft(0);
       $('.splash').show();
-      return $('.app').hide();
+      $('.app').hide();
+      return app.closeOverlay();
     },
     updateResetTimeout: function() {
       app.log('Updating timeline reset timeout');
@@ -91,7 +90,7 @@ under the License.
       years = $('#timeline .content .year').length;
       content_width = 152 + ((152 - 75) * (years - 1));
       timeline_width = 47 + content_width + 32;
-      app_width = timeline_width + 1124;
+      app_width = timeline_width + 500;
       $('#timeline').css('width', timeline_width + "px");
       $('#timeline .content').css('width', content_width + "px");
       $('.app').css('width', app_width + "px");
@@ -101,6 +100,27 @@ under the License.
         windowpos = $(window).scrollLeft();
         return true;
       });
+    },
+    openOverlay: function() {
+      var target;
+      target = $(this).data('year');
+      $('body').css({
+        'overflow': 'hidden',
+        'width': '1024px'
+      });
+      $('#overlay').fadeIn('fast');
+      $('.image-year').hide();
+      $("#" + target).show();
+      app.cancelResetTimeout();
+      return $('.cycle-slideshow').cycle(0);
+    },
+    closeOverlay: function() {
+      $('body').css({
+        'overflow': '',
+        'width': ''
+      });
+      $('#overlay').fadeOut('fast');
+      return app.updateResetTimeout();
     }
   };
 

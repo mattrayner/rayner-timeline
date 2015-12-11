@@ -50,13 +50,13 @@ html(lang="en")
             var sorted_images = images.sort(function(a,b){
               var sortStatus = 0;
 
-              var a_year = a.year ? a.year : 0;
-              var a_month = a.month ? a.month : 0;
-              var a_day = a.day ? a.day : 0;
+              var a_year = a.year ? a.year : 9999;
+              var a_month = a.month ? a.month : 99;
+              var a_day = a.day ? a.day : 99;
 
-              var b_year = b.year ? b.year : 0;
-              var b_month = b.month ? b.month : 0;
-              var b_day = b.day ? b.day : 0;
+              var b_year = b.year ? b.year : 9999;
+              var b_month = b.month ? b.month : 99;
+              var b_day = b.day ? b.day : 99;
 
               if(a_year < 10)
                 a_year = "0"+a_year
@@ -98,7 +98,7 @@ html(lang="en")
 
               year = obj.year.toString();
 
-              if(keys.indexOf(year) > 0){
+              if(keys.indexOf(year) >= 0){
                 years[year].push(obj);
               }else{
                 years[year] = [ obj ];
@@ -122,20 +122,33 @@ html(lang="en")
         .clearfix
 
       #overlay
-        each year in Object.keys(years)
-          .image-year(id="year"+year)
+        a.close-modal(href="#") &nbsp;
 
+        .controls
+          #cycle-prev &nbsp;
+          #cycle-next &nbsp;
+
+        each year in Object.keys(years)
+          .image-year.cycle-slideshow(id="year"+year, data-cycle-swipe="true", data-cycle-fx="scrollHorz", data-cycle-slides="> div", data-cycle-timeout="9000", data-cycle-prev="#cycle-prev", data-cycle-next="#cycle-next")
             each image in years[year]
               .image
-                img(src="img/polaroid/#{image.id}.png", alt=image.title)
-                p.date
-                  =image.year
-                  =image.month
-                  =image.day
+                img(src="img/polaroid/#{image.id}.jpg", alt=image.title)
+
                 p.title=image.title
+
+                p.date
+                  if image.day
+                    =image.day
+                    = "/"
+                  if image.month
+                    =image.month
+                    = "/"
+                  =image.year
+
                 p.description=image.description
 
     script(type="text/javascript", src="cordova.js")
     script(type="text/javascript", src="js/jquery-2.1.4.min.js")
+    script(type="text/javascript", src="js/jquery.cycle2.min.js")
     script(type="text/javascript", src="js/velocity.min.js")
     script(type="text/javascript", src="js/app.js")

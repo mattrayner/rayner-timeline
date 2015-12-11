@@ -52,6 +52,7 @@ body {
   padding: 0px;
   width: 100%;
   background-color: black;
+  color: white;
 }
 
 .splash {
@@ -61,7 +62,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  background: url(../img/splash.png) center center no-repeat;
+  background: url(../img/splash.jpg) center center no-repeat;
   background-size: cover;
 }
 .splash a#start-button {
@@ -75,6 +76,7 @@ body {
   margin-left: -75px;
   -webkit-filter: drop-shadow(12px 12px 25px rgba(0, 0, 0, 0.5));
   filter: drop-shadow(12px 12px 25px rgba(0, 0, 0, 0.5));
+  text-decoration: none;
 }
 
 /* Portrait layout (default) */
@@ -95,7 +97,7 @@ body {
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   height: 194px;
-  margin: 234px 512px 0;
+  margin: 234px 200px 0;
   position: relative;
   z-index: 100;
 }
@@ -166,7 +168,87 @@ body {
   left: 0;
   width: 1024px;
   height: 768px;
+  overflow-y: scroll;
   z-index: 1000;
+}
+.app #overlay a.close-modal {
+  background: url(../img/close.png) top left no-repeat;
+  background-size: 54px 54px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  position: fixed;
+  top: 49px;
+  right: 18px;
+  width: 54px;
+  height: 54px;
+  text-decoration: none;
+  z-index: 2000;
+}
+.app #overlay .controls {
+  position: fixed;
+  width: 889px;
+  height: 54px;
+  top: 351px;
+  left: 50%;
+  margin-left: -445.5px;
+  z-index: 1500;
+}
+.app #overlay .controls #cycle-prev, .app #overlay .controls #cycle-next {
+  width: 54px;
+  height: 54px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+.app #overlay .controls #cycle-prev {
+  float: left;
+  background-image: url(../img/prev.png);
+}
+.app #overlay .controls #cycle-next {
+  float: right;
+  background-image: url(../img/next.png);
+}
+.app #overlay .image-year {
+  background-color: rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  width: 889px;
+  height: 571px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin-left: -466.5px;
+  margin-top: -307.5px;
+  overflow: hidden;
+  padding: 22px;
+}
+.app #overlay .image-year .image {
+  text-align: center;
+  width: 885px;
+  height: 566px;
+  display: block;
+  margin-top: 22px;
+}
+.app #overlay .image-year .image img {
+  height: 410px;
+  width: auto;
+  margin: 0 auto;
+}
+.app #overlay .image-year .image p {
+  margin: 0;
+  padding: 0;
+  width: 80%;
+  margin: 0 auto;
+}
+.app #overlay .image-year .image p.title {
+  font-size: 40px;
+}
+.app #overlay .image-year .image p.date {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-text-stroke-color: rgba(255, 255, 255, 0.5);
+}
+.app #overlay .image-year .image p.description {
+  font-size: 20px;
+  margin-top: 15px;
 }
 .app .backgrounds {
   position: fixed;
@@ -189,7 +271,11 @@ body {
   transition: background-position-x 0.2s;
 }
 .app .backgrounds .background.gillingham {
-  background-image: url(../img/gillingham.png);
+  background-image: url(../img/gillingham.jpg);
+  display: none;
+}
+.app .backgrounds .background.crayford {
+  background-image: url(../img/crayford.jpg);
 }
 
 .clearfix {
